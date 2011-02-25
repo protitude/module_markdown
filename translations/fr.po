@@ -1,4 +1,3 @@
-# $Id$
 #
 # Traduction en français du module Markdown filter pour Drupal
 # Copyright 2009 Jean-Philippe Fleury <contact@jpfleury.net>
