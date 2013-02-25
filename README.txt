@@ -70,7 +70,7 @@ Typogrify module if you are interested in Smartypants support.
 Installation:
 ------------
 1. Download and unpack the Markdown module directory in your modules folder
-   (this will usually be "sites/all/modules/").
+   (this will usually be "modules/").
 2. Go to "Administer" -> "Modules" and enable the module.
 3. Set up a new text format or add Markdown support to an text format at
    Administer -> Configuration -> Content Authoring -> Text formats
