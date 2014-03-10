@@ -11,6 +11,6 @@
 function markdown_help($path, $arg) {
   switch ($path) {
     case 'admin/help#markdown':
-      return t('<p>The Markdown filter allows you to enter content using <a href="http://daringfireball.net/projects/markdown">Markdown</a>, a simple plain-text syntax that is transformed into valid XHTML.</p>');
+      return t('<p>The Markdown filter allows you to enter content using <a href="http://daringfireball.net/projects/markdown">Markdown</a>, a simple plain-text syntax that is transformed into valid HTML.</p>');
   }
 }

@@ -20,7 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   module = "markdown",
  *   title = @Translation("Markdown"),
  *   description = @Translation("Allows content to be submitted using Markdown, a simple plain-text syntax that is filtered into valid XHTML."),
- *   type = FILTER_TYPE_TRANSFORM_REVERSIBLE
+ *   type = Drupal\filter\Plugin\FilterInterface::TYPE_TRANSFORM_REVERSIBLE,
  * )
  */
 class Markdown extends FilterBase implements ContainerFactoryPluginInterface {
@@ -61,7 +61,7 @@ class Markdown extends FilterBase implements ContainerFactoryPluginInterface {
   public function settingsForm(array $form, array &$form_state) {
     $this->moduleHandler->loadInclude('markdown', 'php', 'markdown');
 
-    $settings['markdown_wrapper'] = array(
+    $form['markdown_wrapper'] = array(
       '#type' => 'fieldset',
       '#title' => $this->t('Markdown'),
     );
@@ -69,13 +69,13 @@ class Markdown extends FilterBase implements ContainerFactoryPluginInterface {
       'Markdown PHP Version: <a href="http://michelf.com/projects/php-markdown/">' . MARKDOWN_VERSION . '</a>',
       'Markdown Extra Version: <a href="http://michelf.com/projects/php-markdown/">' . MARKDOWNEXTRA_VERSION . '</a>',
     );
-    $settings['markdown_wrapper']['markdown_status'] = array(
+    $form['markdown_wrapper']['markdown_status'] = array(
       '#title' => $this->t('Versions'),
-      '#type' => 'item',
-      '#markup' => theme('item_list', array('items' => $links)),
+      '#theme' => 'item_list',
+      '#items' => $links,
     );
 
-    return $settings;
+    return $form;
   }
 
   /**
@@ -95,7 +95,7 @@ class Markdown extends FilterBase implements ContainerFactoryPluginInterface {
    */
   public function tips($long = FALSE) {
     if ($long) {
-      return $this->t('Quick Tips:<ul>
+      return t('Quick Tips:<ul>
       <li>Two or more spaces at a line\'s end = Line break</li>
       <li>Double returns = Paragraph</li>
       <li>*Single asterisks* or _single underscores_ = <em>Emphasis</em></li>
@@ -104,7 +104,7 @@ class Markdown extends FilterBase implements ContainerFactoryPluginInterface {
       </ul>For complete details on the Markdown syntax, see the <a href="http://daringfireball.net/projects/markdown/syntax">Markdown documentation</a> and <a href="http://michelf.com/projects/php-markdown/extra/">Markdown Extra documentation</a> for tables, footnotes, and more.');
     }
     else {
-      return $this->t('You can use <a href="@filter_tips">Markdown syntax</a> to format and style the text. Also see <a href="@markdown_extra">Markdown Extra</a> for tables, footnotes, and more.', array('@filter_tips' => url('filter/tips'), '@markdown_extra' => 'http://michelf.com/projects/php-markdown/extra/'));
+      return t('You can use <a href="@filter_tips">Markdown syntax</a> to format and style the text. Also see <a href="@markdown_extra">Markdown Extra</a> for tables, footnotes, and more.', array('@filter_tips' => url('filter/tips'), '@markdown_extra' => 'http://michelf.com/projects/php-markdown/extra/'));
     }
   }
 
