@@ -14,3 +14,43 @@ function markdown_help($path, $arg) {
       return t('<p>The Markdown filter allows you to enter content using <a href="http://daringfireball.net/projects/markdown">Markdown</a>, a simple plain-text syntax that is transformed into valid HTML.</p>');
   }
 }
+
+/**
+ * Implements hook_libraries_info().
+ */
+function markdown_libraries_info() {
+  $libraries['php-markdown'] = array(
+    'name' => 'PHP Markdown Lib',
+    'vendor url' => 'http://michelf.ca/projects/php-markdown/',
+    'download url' => 'https://github.com/michelf/php-markdown/archive/lib.zip',
+    'path' => 'Michelf',
+    'version arguments' => array(
+      'file' => 'Readme.md',
+      'pattern' => '@(?i:PHP Markdown Lib) ([0-9\.]+)@',
+      'lines' => 5,
+    ),
+    'files' => array(
+      'php' => array(
+        'Markdown.inc.php',
+      ),
+    ),
+    'variants' => array(
+      'markdown' => array(
+        'files' => array(
+          'php' => array(
+            'Markdown.inc.php',
+          ),
+        ),
+      ),
+      'markdown-extra' => array(
+        'files' => array(
+          'php' => array(
+            'MarkdownExtra.inc.php',
+          ),
+        ),
+      ),
+    ),
+  );
+
+  return $libraries;
+}

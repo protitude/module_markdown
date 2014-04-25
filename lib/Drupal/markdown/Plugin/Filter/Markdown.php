@@ -7,10 +7,8 @@
 
 namespace Drupal\markdown\Plugin\Filter;
 
-use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\filter\Plugin\FilterBase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Michelf\MarkdownExtra;
 
 /**
  * Provides a filter for markdown.
@@ -19,55 +17,24 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   id = "markdown",
  *   module = "markdown",
  *   title = @Translation("Markdown"),
- *   description = @Translation("Allows content to be submitted using Markdown, a simple plain-text syntax that is filtered into valid XHTML."),
+ *   description = @Translation("Allows content to be submitted using Markdown, a simple plain-text syntax that is filtered into valid HTML."),
  *   type = Drupal\filter\Plugin\FilterInterface::TYPE_TRANSFORM_REVERSIBLE,
  * )
  */
-class Markdown extends FilterBase implements ContainerFactoryPluginInterface {
-
-  /**
-   * Constructs a Markdown instance.
-   *
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param array $plugin_definition
-   *   The plugin implementation definition.
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
-   *   The module handler.
-   */
-  public function __construct(array $configuration, $plugin_id, array $plugin_definition, ModuleHandlerInterface $module_handler) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition);
-
-    $this->moduleHandler = $module_handler;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, array $plugin_definition) {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->get('module_handler')
-    );
-  }
+class Markdown extends FilterBase {
 
   /**
    * {@inheritdoc}
    */
   public function settingsForm(array $form, array &$form_state) {
-    $this->moduleHandler->loadInclude('markdown', 'php', 'markdown');
+    $library = libraries_detect('php-markdown');
 
     $form['markdown_wrapper'] = array(
       '#type' => 'fieldset',
       '#title' => $this->t('Markdown'),
     );
     $links = array(
-      'Markdown PHP Version: <a href="http://michelf.com/projects/php-markdown/">' . MARKDOWN_VERSION . '</a>',
-      'Markdown Extra Version: <a href="http://michelf.com/projects/php-markdown/">' . MARKDOWNEXTRA_VERSION . '</a>',
+      'Markdown PHP Lib Version: ' . l($library['version'], $library['vendor url']),
     );
     $form['markdown_wrapper']['markdown_status'] = array(
       '#title' => $this->t('Versions'),
@@ -83,8 +50,8 @@ class Markdown extends FilterBase implements ContainerFactoryPluginInterface {
    */
   public function process($text, $langcode, $cache, $cache_id) {
     if (!empty($text)) {
-      $this->moduleHandler->loadInclude('markdown', 'php', 'markdown');
-      $text = Markdown($text);
+      libraries_load('php-markdown', 'markdown-extra');
+      $text = MarkdownExtra::defaultTransform($text);
     }
 
     return $text;

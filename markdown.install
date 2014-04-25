@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the markdown module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function markdown_requirements($phase) {
+  $requirements = array();
+
+  if ($phase == 'runtime') {
+    $library = libraries_detect('php-markdown');
+    $error_type = isset($library['error']) ? drupal_ucfirst($library['error']) : '';
+    $error_message = isset($library['error message']) ? $library['error message'] : '';
+
+    if (empty($library['installed'])) {
+      $requirements['php_markdown_lib'] = array(
+        'title' => t('PHP Markdown lib'),
+        'value' => t('Not found'),
+        'severity' => REQUIREMENT_ERROR,
+        'description' => t('!error You need to download the !markdown, extract the archive and place the directory in the %path directory on your server.', array('!error' => $error_message, '!markdown' => l(t('PHP Markdown Lib'), $library['download url']), '%path' => 'libraries')),
+      );
+    }
+    else {
+      $requirements['php_markdown_lib'] = array(
+        'title' => t('PHP Markdown lib'),
+        'severity' => REQUIREMENT_OK,
+        'value' => $library['version'],
+      );
+    }
+  }
+
+  return $requirements;
+}
