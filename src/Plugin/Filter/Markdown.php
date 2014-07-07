@@ -8,6 +8,7 @@
 namespace Drupal\markdown\Plugin\Filter;
 
 use Drupal\filter\Plugin\FilterBase;
+use Drupal\filter\FilterProcessResult;
 use Michelf\MarkdownExtra;
 
 /**
@@ -48,13 +49,13 @@ class Markdown extends FilterBase {
   /**
    * {@inheritdoc}
    */
-  public function process($text, $langcode, $cache, $cache_id) {
+  public function process($text, $langcode) {
     if (!empty($text)) {
       libraries_load('php-markdown', 'markdown-extra');
       $text = MarkdownExtra::defaultTransform($text);
     }
 
-    return $text;
+    return new FilterProcessResult($text);
   }
 
   /**
