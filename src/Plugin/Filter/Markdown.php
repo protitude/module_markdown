@@ -7,6 +7,7 @@
 
 namespace Drupal\markdown\Plugin\Filter;
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\filter\Plugin\FilterBase;
 use Drupal\filter\FilterProcessResult;
 use Michelf\MarkdownExtra;
@@ -27,7 +28,7 @@ class Markdown extends FilterBase {
   /**
    * {@inheritdoc}
    */
-  public function settingsForm(array $form, array &$form_state) {
+  public function settingsForm(array $form, FormStateInterface $form_state) {
     $library = libraries_detect('php-markdown');
 
     $form['markdown_wrapper'] = array(
