@@ -7,9 +7,11 @@
 
 namespace Drupal\markdown\Plugin\Block;
 
-use Drupal\block\BlockBase;
+use Drupal\Core\Block\BlockBase;
 
 /**
+ * Provides the MarkdownHelp block.
+ *
  * @Block(
  *   id = "markdown_help",
  *   admin_label = @Translation("Markdown filter tips")
