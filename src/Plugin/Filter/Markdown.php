@@ -40,7 +40,7 @@ class Markdown extends FilterBase {
       '#title' => $this->t('Version'),
       '#theme' => 'item_list',
       '#items' => array(
-        'Markdown PHP Lib Version: ' . $library['version'],
+        $library['name'] . ' ' . $library['version'],
       ),
     );
 
