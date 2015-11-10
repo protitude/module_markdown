@@ -56,3 +56,17 @@ function markdown_libraries_info() {
 
   return $libraries;
 }
+
+/**
+ * Implement hook_ENTITY_TYPE_create().
+ */
+function markdown_migration_create(Drupal\migrate\Entity\Migration $migration) {
+  // Add mapping from filter_markdown to markdown for D7 migratins.
+  if ($migration->id() == 'd7_filter_format') {
+    $process = $migration->getProcess();
+    if (!empty($process['filters'][0]['process']['id']['map'])) {
+      $process['filters'][0]['process']['id']['map']['filter_markdown'] = 'markdown';
+    }
+    $migration->setProcess($process);
+  }
+}
