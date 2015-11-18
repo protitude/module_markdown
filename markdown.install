@@ -20,9 +20,9 @@ function markdown_requirements($phase) {
         'title' => t('Markdown library'),
         'value' => t('Not found'),
         'severity' => REQUIREMENT_ERROR,
-        'description' => t('!error You need to download the <a href="!markdown_link">PHP Markdown Lib</a>, extract the archive and place the directory in the %path directory on your server.', array(
-          '!error' => $error_message,
-          '!markdown_link' => $library['download url'],
+        'description' => t('@error You need to download the <a href=":markdown_link">PHP Markdown Lib</a>, extract the archive and place the directory in the %path directory on your server.', array(
+          '@error' => $error_message,
+          ':markdown_link' => $library['download url'],
           '%path' => 'libraries',
         )),
       );
