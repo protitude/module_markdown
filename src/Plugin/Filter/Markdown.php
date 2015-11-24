@@ -12,6 +12,7 @@ use Drupal\filter\FilterProcessResult;
 use Drupal\filter\Plugin\FilterBase;
 use Drupal\Core\Url;
 use Michelf\MarkdownExtra;
+use League\CommonMark\CommonMarkConverter;
 
 /**
  * Provides a filter for markdown.
@@ -22,6 +23,9 @@ use Michelf\MarkdownExtra;
  *   title = @Translation("Markdown"),
  *   description = @Translation("Allows content to be submitted using Markdown, a simple plain-text syntax that is filtered into valid HTML."),
  *   type = Drupal\filter\Plugin\FilterInterface::TYPE_MARKUP_LANGUAGE,
+ *   settings = {
+ *     "markdown_library" = "php-markdown"
+ *   },
  * )
  */
 class Markdown extends FilterBase {
@@ -30,19 +34,38 @@ class Markdown extends FilterBase {
    * {@inheritdoc}
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
-    $library = libraries_detect('php-markdown');
+    $libraries_options = array();
 
-    $form['markdown_wrapper'] = array(
-      '#type' => 'fieldset',
-      '#title' => $this->t('Markdown'),
+    if (class_exists('Michelf\MarkdownExtra')) {
+        $libraries_options['php-markdown'] = 'PHP Markdown';
+    }
+    elseif (\Drupal::moduleHandler()->moduleExists('libraries')) {
+      $library = libraries_detect('php-markdown');
+      if (!empty($library['installed'])) {
+        $libraries_options['php-markdown'] = 'PHP Markdown';
+      }
+    }
+
+    if (class_exists('League\CommonMark\CommonMarkConverter')) {
+        $libraries_options['commonmark'] = 'Commonmark';
+    }
+
+    $form['markdown_library'] = array(
+      '#type' => 'select',
+      '#title' => $this->t('Markdown library'),
+      '#options' => $libraries_options,
+      '#default_value' => $this->settings['markdown_library'],
     );
-    $form['markdown_wrapper']['markdown_status'] = array(
-      '#title' => $this->t('Version'),
-      '#theme' => 'item_list',
-      '#items' => array(
-        $library['name'] . ' ' . $library['version'],
-      ),
-    );
+
+    if (isset($library['name'])) {
+      $form['markdown_status'] = array(
+        '#title' => $this->t('Version'),
+        '#theme' => 'item_list',
+        '#items' => array(
+          $library['name'] . ' ' . $library['version'],
+        ),
+      );
+    }
 
     return $form;
   }
@@ -52,8 +75,18 @@ class Markdown extends FilterBase {
    */
   public function process($text, $langcode) {
     if (!empty($text)) {
-      libraries_load('php-markdown', 'markdown-extra');
-      $text = MarkdownExtra::defaultTransform($text);
+      switch ($this->settings['markdown_library']) {
+        case 'commonmark':
+          $converter = new CommonMarkConverter();
+          $text = $converter->convertToHtml($text);
+          break;
+        case 'php-markdown':
+          if (\Drupal::moduleHandler()->moduleExists('libraries')) {
+            libraries_load('php-markdown', 'markdown-extra');
+          }
+          $text = MarkdownExtra::defaultTransform($text);
+          break;
+      }
     }
 
     return new FilterProcessResult($text);
