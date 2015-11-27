@@ -1,22 +1,24 @@
 Markdown filter Drupal module
 =============================
 
-Provides Markdown filter integration for Drupal input formats. The
+Provides Markdown filter integration for Drupal text formats. The
 Markdown syntax is designed to co-exist with HTML, so you can set up
 input formats with both HTML and Markdown support. It is also meant to
 be as human-readable as possible when left as "source".
 
-There are many different Markdown implementation. Markdown filter uses
-"PHP Markdown extra" that includes many common and useful extensions to
-the original Markdown. This includes tables, footnotes and definition
-lists.
+There are many different Markdown implementation. Markdown filter can
+at the moment use the following:
 
-Read more about Markdown at:
+* PHP Markdown by Michel Fortin <https://michelf.ca/projects/php-markdown/>
+* CommonMark <http://commonmark.org>
 
-* Original Markdown Syntax by John Gruber
-  <http://daringfireball.net/projects/markdown/syntax>
-* PHP Markdown Extra by Michel Fortin
-  <http://michelf.ca/projects/php-markdown/extra/>
+
+Installation:
+------------
+
+If you are comfortable with composer that is the best way to install both PHP Markdown and CommonMark. They will then be autoloaded just like other parts of Drupal 8.
+
+The old way of installation in the libraries directory is only supported for PHP Markdown. The libraries module is then needed to load the library.
 
 
 Markdown editor:
@@ -67,17 +69,7 @@ Typogrify module if you are interested in Smartypants support.
 <http://drupal.org/project/typogrify>
 
 
-Installation:
-------------
-1. Download and unpack the Markdown module directory in your modules folder
-   (this will usually be "modules/").
-2. Go to "Administer" -> "Modules" and enable the module.
-3. Set up a new text format or add Markdown support to an text format at
-   Administer -> Configuration -> Content Authoring -> Text formats
-
-
 Credits:
 -------
 Markdown created                     by John Gruber: <http://daringfireball.net>
-PHP executions                       by Michel Fortin: <http://www.michelf.com/>
 Drupal filter originally             by Noah Mittman: <http://www.teradome.com/>
