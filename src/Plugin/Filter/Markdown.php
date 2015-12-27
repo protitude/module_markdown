@@ -106,7 +106,7 @@ class Markdown extends FilterBase {
       </ul>For complete details on the Markdown syntax, see the <a href="http://daringfireball.net/projects/markdown/syntax">Markdown documentation</a> and <a href="http://michelf.com/projects/php-markdown/extra/">Markdown Extra documentation</a> for tables, footnotes, and more.');
     }
     else {
-      return $this->t('You can use <a href="@filter_tips">Markdown syntax</a> to format and style the text. Also see <a href="@markdown_extra">Markdown Extra</a> for tables, footnotes, and more.', array('@filter_tips' => \Drupal::url('filter.tips_all'), '@markdown_extra' => 'http://michelf.com/projects/php-markdown/extra/'));
+      return $this->t('You can use <a href="@filter_tips">Markdown syntax</a> to format and style the text. Also see <a href="@markdown_extra">Markdown Extra</a> for tables, footnotes, and more.', array('@filter_tips' => Url::fromRoute('filter.tips_all'), '@markdown_extra' => 'http://michelf.com/projects/php-markdown/extra/'));
     }
   }
 
