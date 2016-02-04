@@ -81,7 +81,7 @@ class Markdown extends FilterBase {
           $text = $converter->convertToHtml($text);
           break;
         case 'php-markdown':
-          if (\Drupal::moduleHandler()->moduleExists('libraries')) {
+          if (!class_exists('Michelf\MarkdownExtra') && \Drupal::moduleHandler()->moduleExists('libraries')) {
             libraries_load('php-markdown', 'markdown-extra');
           }
           $text = MarkdownExtra::defaultTransform($text);
