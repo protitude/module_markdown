@@ -58,15 +58,13 @@ function markdown_libraries_info() {
 }
 
 /**
- * Implement hook_ENTITY_TYPE_create().
+ * Implements hook_migration_plugins_alter().
  */
-function markdown_migration_create(Drupal\migrate\Entity\Migration $migration) {
-  // Add mapping from filter_markdown to markdown for D7 migratins.
-  if ($migration->id() == 'd7_filter_format') {
-    $process = $migration->getProcess();
-    if (!empty($process['filters'][0]['process']['id']['map'])) {
-      $process['filters'][0]['process']['id']['map']['filter_markdown'] = 'markdown';
-    }
-    $migration->setProcess($process);
+function markdown_migration_plugins_alter(array &$migrations) {
+  if (isset($migrations['d7_filter_format'])) {
+    $migration = &$migrations['d7_filter_format'];
+
+    // Add mapping from filter_markdown to markdown for D7 migratins.
+    $migration['process']['filters']['process']['id']['map']['filter_markdown'] = 'markdown';
   }
 }
