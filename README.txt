@@ -16,9 +16,20 @@ at the moment use the following:
 Installation:
 ------------
 
-If you are comfortable with composer that is the best way to install both PHP Markdown and CommonMark. They will then be autoloaded just like other parts of Drupal 8.
+If you are comfortable with composer that is the best way to install both PHP
+Markdown and CommonMark. They will then be autoloaded just like other parts of
+Drupal 8.
 
-The old way of installation in the libraries directory is only supported for PHP Markdown. The libraries module is then needed to load the library.
+The old way of installation in the libraries directory is only supported for PHP
+Markdown. The libraries module is then needed to load the library.
+
+1. Download and install the libraries module https://www.drupal.org/project/libraries.
+2. Download the PHP Markdown library from
+   https://github.com/michelf/php-markdown/archive/lib.zip, unpack it and place it
+   in the "libraries" directory in Drupal root folder, if it doesn't exist you need
+   to create it.
+
+Make sure the path becomes "/libraries/php-markdown/Michelf/MarkdownExtra.inc.php".
 
 
 Markdown editor:
