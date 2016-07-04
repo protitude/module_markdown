@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\markdown\Plugin\Filter\Markdown.
- */
-
 namespace Drupal\markdown\Plugin\Filter;
 
 use Drupal\Core\Form\FormStateInterface;

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\markdown\Plugin\Block\MarkdownHelp.
- */
-
 namespace Drupal\markdown\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
