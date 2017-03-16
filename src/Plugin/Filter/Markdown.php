@@ -32,7 +32,7 @@ class Markdown extends FilterBase {
     $libraries_options = array();
 
     if (class_exists('Michelf\MarkdownExtra')) {
-        $libraries_options['php-markdown'] = 'PHP Markdown';
+      $libraries_options['php-markdown'] = 'PHP Markdown';
     }
     elseif (\Drupal::moduleHandler()->moduleExists('libraries')) {
       $library = libraries_detect('php-markdown');
@@ -42,15 +42,27 @@ class Markdown extends FilterBase {
     }
 
     if (class_exists('League\CommonMark\CommonMarkConverter')) {
-        $libraries_options['commonmark'] = 'Commonmark';
+      $libraries_options['commonmark'] = 'Commonmark';
     }
 
-    $form['markdown_library'] = array(
-      '#type' => 'select',
-      '#title' => $this->t('Markdown library'),
-      '#options' => $libraries_options,
-      '#default_value' => $this->settings['markdown_library'],
-    );
+    if (!empty($libraries_options)) {
+      $form['markdown_library'] = array(
+        '#type' => 'select',
+        '#title' => $this->t('Markdown library'),
+        '#options' => $libraries_options,
+        '#default_value' => $this->settings['markdown_library'],
+      );
+    }
+    else {
+      $form['markdown_library'] = array(
+        '#type' => 'item',
+        '#title' => $this->t('No Markdown library found'),
+        '#description' => $this->t('You need to use composer to install the <a href=":markdown_link">PHP Markdown Lib</a> and/or the <a href=":commonmark_link">CommonMark Lib</a>. Optionally you can use the Library module and place the PHP Markdown Lib in the root library directory, see more in README.', array(
+          ':markdown_link' => 'https://packagist.org/packages/michelf/php-markdown',
+          ':commonmark_link' => 'https://packagist.org/packages/league/commonmark',
+        )),
+      );
+    }
 
     if (isset($library['name'])) {
       $form['markdown_status'] = array(
@@ -72,14 +84,17 @@ class Markdown extends FilterBase {
     if (!empty($text)) {
       switch ($this->settings['markdown_library']) {
         case 'commonmark':
-          $converter = new CommonMarkConverter();
+          $converter = new League\CommonMark\CommonMarkConverter();
           $text = $converter->convertToHtml($text);
           break;
         case 'php-markdown':
           if (!class_exists('Michelf\MarkdownExtra') && \Drupal::moduleHandler()->moduleExists('libraries')) {
             libraries_load('php-markdown', 'markdown-extra');
+            $text = MarkdownExtra::defaultTransform($text);
           }
-          $text = MarkdownExtra::defaultTransform($text);
+          else {
+            $text = Michelf\MarkdownExtra::defaultTransform($text);
+          }
           break;
       }
     }
