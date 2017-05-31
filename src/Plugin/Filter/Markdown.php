@@ -84,17 +84,14 @@ class Markdown extends FilterBase {
     if (!empty($text)) {
       switch ($this->settings['markdown_library']) {
         case 'commonmark':
-          $converter = new League\CommonMark\CommonMarkConverter();
+          $converter = new CommonMarkConverter();
           $text = $converter->convertToHtml($text);
           break;
         case 'php-markdown':
           if (!class_exists('Michelf\MarkdownExtra') && \Drupal::moduleHandler()->moduleExists('libraries')) {
             libraries_load('php-markdown', 'markdown-extra');
-            $text = MarkdownExtra::defaultTransform($text);
           }
-          else {
-            $text = Michelf\MarkdownExtra::defaultTransform($text);
-          }
+          $text = MarkdownExtra::defaultTransform($text);
           break;
       }
     }
