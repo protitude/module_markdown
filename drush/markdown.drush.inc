@@ -27,18 +27,18 @@ define('PHP_MARKDOWN_EXTRA_DIR_NAME', 'php-markdown-lib');
  *   An associative array describing your command(s).
  */
 function markdown_drush_command() {
-  $items = array();
+  $items = [];
 
   // the key in the $items array is the name of the command.
-  $items['markdown-plugin'] = array(
+  $items['markdown-plugin'] = [
     'callback' => 'drush_markdown_plugin',
     'description' => dt('Download and install a selection of Markdown plugins.'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUSH, // No bootstrap.
-    'arguments' => array(
+    'arguments' => [
       'path' => dt('Optional. A path where to install the Markdown plugin. If omitted Drush will use the default location.'),
-    ),
-    'aliases' => array('markdownplugin'),
-  );
+    ],
+    'aliases' => ['markdownplugin'],
+  ];
 
   return $items;
 }
@@ -77,7 +77,7 @@ function drush_markdown_plugin() {
   // Create the path if it does not exist.
   if (!is_dir($path)) {
     drush_op('mkdir', $path);
-    drush_log(dt('Directory @path was created', array('@path' => $path)), 'notice');
+    drush_log(dt('Directory @path was created', ['@path' => $path]), 'notice');
   }
 
   // Set the directory to the download location.
@@ -93,7 +93,7 @@ function drush_markdown_plugin() {
     if (is_dir($dirname) || is_dir('markdown')) {
       drush_delete_dir($dirname, TRUE);
       drush_delete_dir('markdown', TRUE);
-      drush_log(dt('A existing Markdown plugin was deleted from @path', array('@path' => $path)), 'notice');
+      drush_log(dt('A existing Markdown plugin was deleted from @path', ['@path' => $path]), 'notice');
     }
 
     // Decompress the zip archive
@@ -107,10 +107,10 @@ function drush_markdown_plugin() {
   }
 
   if (is_dir($dirname)) {
-    drush_log(dt('Markdown plugin has been installed in @path', array('@path' => $path)), 'success');
+    drush_log(dt('Markdown plugin has been installed in @path', ['@path' => $path]), 'success');
   }
   else {
-    drush_log(dt('Drush was unable to install the Markdown plugin to @path', array('@path' => $path)), 'error');
+    drush_log(dt('Drush was unable to install the Markdown plugin to @path', ['@path' => $path]), 'error');
   }
 
   // Set working directory back to the previous working directory.

@@ -21,38 +21,38 @@ function markdown_help($route_name, RouteMatchInterface $route_match) {
  * Implements hook_libraries_info().
  */
 function markdown_libraries_info() {
-  $libraries['php-markdown'] = array(
+  $libraries['php-markdown'] = [
     'name' => 'PHP Markdown Lib',
     'vendor url' => 'http://michelf.ca/projects/php-markdown/',
     'download url' => 'https://github.com/michelf/php-markdown/archive/lib.zip',
     'path' => 'Michelf',
-    'version arguments' => array(
+    'version arguments' => [
       'file' => 'Readme.md',
       'pattern' => '@(?i:PHP Markdown Lib) ([0-9\.]+)@',
       'lines' => 5,
-    ),
-    'files' => array(
-      'php' => array(
+    ],
+    'files' => [
+      'php' => [
         'Markdown.inc.php',
-      ),
-    ),
-    'variants' => array(
-      'markdown' => array(
-        'files' => array(
-          'php' => array(
+      ],
+    ],
+    'variants' => [
+      'markdown' => [
+        'files' => [
+          'php' => [
             'Markdown.inc.php',
-          ),
-        ),
-      ),
-      'markdown-extra' => array(
-        'files' => array(
-          'php' => array(
+          ],
+        ],
+      ],
+      'markdown-extra' => [
+        'files' => [
+          'php' => [
             'MarkdownExtra.inc.php',
-          ),
-        ),
-      ),
-    ),
-  );
+          ],
+        ],
+      ],
+    ],
+  ];
 
   return $libraries;
 }
