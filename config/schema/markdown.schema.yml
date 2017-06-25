@@ -1,5 +1,5 @@
 markdown.settings:
-  type: mapping
+  type: config_object
   label: 'Markdown settings'
   mapping:
     markdown_library:
