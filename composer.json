@@ -10,7 +10,7 @@
   "license": "GPL-2.0+",
   "minimum-stability": "dev",
   "require": {
-    "league/commonmark": "^0.15.0",
+    "league/commonmark": "^0.18.3",
     "michelf/php-markdown": "^1.6"
   }
 }
